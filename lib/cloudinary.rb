@@ -37,7 +37,8 @@ module Cloudinary
   
   def self.config(new_config=nil)
     first_time = @@config.nil?
-    @@config ||= OpenStruct.new((YAML.load(ERB.new(IO.read(config_dir.join("cloudinary.yml"))).result)[config_env] rescue {}))
+    #@@config ||= OpenStruct.new((YAML.load(ERB.new(IO.read(config_dir.join("cloudinary.yml"))).result)[config_env] rescue {}))
+    @@config ||= OpenStruct.new(YAML.load(IO.read(Cloudinary::config_dir.join("cloudinary.yml")))[config_env.to_s])
         
     # Heroku support
     if first_time && ENV["CLOUDINARY_CLOUD_NAME"]
@@ -90,6 +91,7 @@ module Cloudinary
   def self.config_env
     return ENV["CLOUDINARY_ENV"] if ENV["CLOUDINARY_ENV"]
     return Rails.env if defined? Rails::env
+    return Volt.env if defined? Volt::env
     nil
   end
   

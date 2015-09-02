@@ -1,5 +1,7 @@
 module CloudinaryHelper
-  include ActionView::Helpers::CaptureHelper
+  if defined? ActionView::Helpers::CaptureHelper
+    include ActionView::Helpers::CaptureHelper
+  end
   DEFAULT_POSTER_OPTIONS = { :format => 'jpg', :resource_type => 'video' }
   DEFAULT_SOURCE_TYPES   = %w(webm mp4 ogv)
   DEFAULT_VIDEO_OPTIONS  = { :resource_type => 'video' }
